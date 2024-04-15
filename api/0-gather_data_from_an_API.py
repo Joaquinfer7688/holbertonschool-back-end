@@ -16,8 +16,8 @@ def get_employee():
         user_id)
     name = requests.get(user).json().get("name")
     request_todo = requests.get(todos).json()
-    tasks_completed = [task.get("title")
-             for task in request_todo if task.get("completed") is True]
+    tasks_completed = [task.get("title") for
+                       task in request_todo if task.get("completed") is True]
 
     print("Employee {} is done with tasks({}/{}):".format(name,
                                                           len(tasks_completed),
