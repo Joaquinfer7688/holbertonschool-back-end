@@ -1,13 +1,12 @@
 #!/usr/bin/python3
 """
-project api task 1
+project api task 0
 """
 import requests
 import sys
-import csv
 
 
-def get_employee(user_id):
+def get_employee():
     """
     Obtains and displays information about an employee's tasks.
     """
@@ -17,17 +16,15 @@ def get_employee(user_id):
         user_id)
     name = requests.get(user).json().get("name")
     request_todo = requests.get(todos).json()
+    tasks_completed = [task.get("title") for
+                       task in request_todo if task.get("completed") is True]
 
-    filename = "{}.csv".format(user_id)
-    with open(filename, "w", newline="") as file:
-        writer = csv.writer(file)
-        csv_format = [["USER_ID", "USERNAME", "TASK_COMPLETED_STATUS",
-                       "TASK_TITLE"]]
-    for task in request_todo:
-        csv_format.append([user_id, name, task.get("completed"),
-                           task.get("title")])
+    print("Employee {} is done with tasks({}/{}):".format(name,
+                                                          len(tasks_completed),
+                                                          len(request_todo)))
+    print("\n".join("\t {}".format(task) for task in tasks_completed))
 
 
 if __name__ == "__main__":
     if len(sys.argv) == 2:
-        get_employee(sys.argv[1])
+        get_employee()
