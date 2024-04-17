@@ -1,14 +1,15 @@
 #!/usr/bin/python3
 """
-project api task 0
+project api task 2
 """
 import requests
 import sys
+import json
 
 
-def get_employee():
+def get_employee(user_id):
     """
-    Obtains and displays information about an employee's tasks.
+    export data in the JSON format.
     """
     user_id = sys.argv[1]
     user = "https://jsonplaceholder.typicode.com/users/{}".format(user_id)
@@ -16,15 +17,22 @@ def get_employee():
         user_id)
     name = requests.get(user).json().get("name")
     request_todo = requests.get(todos).json()
-    tasks_completed = [task.get("title") for
-                       task in request_todo if task.get("completed") is True]
 
-    print("Employee {} is done with tasks({}/{}):".format(name,
-                                                          len(tasks_completed),
-                                                          len(request_todo)))
-    print("\n".join("\t {}".format(task) for task in tasks_completed))
+    todo_list = []
+
+    for task in request_todo:
+        todo_list.append({
+            "task": task.get("title"),
+            "completed": task.get("completed"),
+            "username": name
+        })
+
+    result = {name: todo_list}
+
+    with open(f"{user_id}.json", "w") as file:
+        json.dump(result, file)
 
 
 if __name__ == "__main__":
     if len(sys.argv) == 2:
-        get_employee()
+        get_employee(sys.argv[1])
