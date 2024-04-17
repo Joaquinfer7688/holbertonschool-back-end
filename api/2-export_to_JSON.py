@@ -2,9 +2,9 @@
 """
 project api task 2
 """
+import json
 import requests
 import sys
-import json
 
 
 def get_employee(user_id):
