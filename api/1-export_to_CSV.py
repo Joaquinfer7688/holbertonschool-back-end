@@ -2,9 +2,9 @@
 """
 project api task 1
 """
+import csv
 import requests
 import sys
-import csv
 
 
 def get_employee(user_id):
