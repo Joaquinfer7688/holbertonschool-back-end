@@ -11,11 +11,9 @@ def get_employee(user_id):
     """
     export data in the JSON format.
     """
-    user_id = sys.argv[1]
-    user = "https://jsonplaceholder.typicode.com/users/{}".format(user_id)
-    todos = "https://jsonplaceholder.typicode.com/todos/?userId={}".format(
-        user_id)
-    name = requests.get(user).json().get("name")
+    user = f"https://jsonplaceholder.typicode.com/users/{user_id}"
+    todos = f"https://jsonplaceholder.typicode.com/todos/?userId={user_id}"
+    user = requests.get(user).json()
     request_todo = requests.get(todos).json()
 
     todo_list = []
@@ -24,12 +22,12 @@ def get_employee(user_id):
         todo_list.append({
             "task": task.get("title"),
             "completed": task.get("completed"),
-            "username": name
+            "username": user.get("username")
         })
 
-    result = {name: todo_list}
+    result = {user_id: todo_list}
 
-    with open(f"{user_id}.json", "w") as file:
+    with open(f"{user_id}.json", mode="w") as file:
         json.dump(result, file)
 
 
