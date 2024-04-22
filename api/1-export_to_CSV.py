@@ -11,21 +11,25 @@ def get_employee(user_id):
     """
     Obtains and displays information about an employee's tasks.
     """
-    user_id = sys.argv[1]
-    user = "https://jsonplaceholder.typicode.com/users/{}".format(user_id)
-    todos = "https://jsonplaceholder.typicode.com/todos/?userId={}".format(
-        user_id)
+    user = f"https://jsonplaceholder.typicode.com/users/{user_id}"
+    todos = f"https://jsonplaceholder.typicode.com/todos/?userId={user_id}"
+
     name = requests.get(user).json().get("name")
     request_todo = requests.get(todos).json()
+    tasks_completed = [task for task in request_todo if task.get("completed")]
 
-    filename = "{}.csv".format(user_id)
-    with open(filename, "w", newline="") as file:
-        writer = csv.writer(file)
-        csv_format = [["USER_ID", "USERNAME", "TASK_COMPLETED_STATUS",
-                       "TASK_TITLE"]]
+    csv_format = [["USER_ID", "USERNAME", "TASK_COMPLETED_STATUS",
+                   "TASK_TITLE"]]
+
     for task in request_todo:
-        csv_format.append([user_id, name, task.get("completed"),
-                           task.get("title")])
+        csv_format.append([user_id, name, task.get('completed'),
+                           task.get('title')])
+
+    filename = f"{user_id}.csv"
+
+    with open(filename, mode="w", newline="") as file:
+        writer = csv.writer(file, quoting=csv.QUOTE_ALL, quotechar='"')
+        writer.writerows(csv_format[1:])
 
 
 if __name__ == "__main__":
