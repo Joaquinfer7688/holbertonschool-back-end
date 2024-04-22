@@ -10,7 +10,7 @@ def get_employee():
     """
     export data in the JSON format.
     """
-    users = requests.get(f"https://jsonplaceholder.typicode.com/users").json()
+    users = requests.get("https://jsonplaceholder.typicode.com/users").json()
 
     data_dict = {}
 
