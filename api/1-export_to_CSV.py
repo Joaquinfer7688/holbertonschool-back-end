@@ -24,9 +24,9 @@ def get_employee(user_id):
         csv_format.append([user_id, name, task.get('completed'),
                            task.get('title')])
 
-    filename = f"{user_id}.csv"
+    csv_filename = f"{user_id}.csv"
 
-    with open(filename, mode="w", newline="") as file:
+    with open(csv_filename, mode="w", newline="") as file:
         writer = csv.writer(file, quoting=csv.QUOTE_ALL, quotechar='"')
         writer.writerows(csv_format[1:])
 
