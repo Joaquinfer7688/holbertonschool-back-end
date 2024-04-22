@@ -18,7 +18,7 @@ def get_employee():
         user_id = user.get("id")
         request_todo = requests.get(
             f"https://jsonplaceholder.typicode.com/todos/?userId={user_id}"
-         ).json()
+            ).json()
 
         todo_list = []
         for task in request_todo:
