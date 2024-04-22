@@ -16,7 +16,6 @@ def get_employee(user_id):
 
     name = requests.get(user).json().get("name")
     request_todo = requests.get(todos).json()
-    tasks_completed = [task for task in request_todo if task.get("completed")]
 
     csv_format = [["USER_ID", "USERNAME", "TASK_COMPLETED_STATUS",
                    "TASK_TITLE"]]
