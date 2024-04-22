@@ -10,20 +10,22 @@ def get_employee():
     """
     export data in the JSON format.
     """
-    users = requests.get("https://jsonplaceholder.typicode.com/users/").json()
+    users = requests.get("https://jsonplaceholder.typicode.com/users").json()
 
     data_dict = {}
 
     for user in users:
         user_id = user.get("id")
-        request_todo = requests.get(f"https://jsonplaceholder.typicode.com/todos?userId={user_id}").json()
+        request_todo = requests.get(
+            f"https://jsonplaceholder.typicode.com/todos/?userId={user_id}"
+         ).json()
 
         todo_list = []
         for task in request_todo:
             todo_list.append({
+                "username": user.get("username"),
                 "task": task.get("title"),
-                "completed": task.get("completed"),
-                "username": user.get("username")
+                "completed": task.get("completed")
             })
 
         data_dict[user_id] = todo_list
