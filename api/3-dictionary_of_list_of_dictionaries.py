@@ -16,22 +16,19 @@ def get_employee():
 
     for user in users:
         user_id = user.get("id")
-        name = user.get("username")
-        todos = "https://jsonplaceholder.typicode.com/todos?userId={}".format(
-            user_id)
-        request_todo = requests.get(todos).json()
+        request_todo = requests.get(f"https://jsonplaceholder.typicode.com/todos?userId={user_id}").json()
 
         todo_list = []
         for task in request_todo:
             todo_list.append({
                 "task": task.get("title"),
                 "completed": task.get("completed"),
-                "username": name
+                "username": user.get("username")
             })
 
         data_dict[user_id] = todo_list
 
-    with open("todo_all_employees.json", "w") as file:
+    with open("todo_all_employees.json", mode="w") as file:
         json.dump(data_dict, file)
 
 
